@@ -1,6 +1,6 @@
-# Prelude — handoff notes (for a teammate or another AI assistant)
+# ClinicQuick — handoff notes (for a teammate or another AI assistant)
 
-Hack the Valley 11 project. Pre-visit AI intake ("Lena") + care-home early warning. All data synthetic.
+Hack the Valley 11 project. Pre-visit AI intake ("Lena") plus a patient app and clinician portal. Formerly called Prelude. All data synthetic.
 Read README.md first for setup. This file explains the current state and what's next.
 
 ## Stack

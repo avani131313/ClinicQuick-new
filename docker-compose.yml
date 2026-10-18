@@ -1,5 +1,5 @@
 # One Vultr instance: Caddy (HTTPS) → Next.js frontend + FastAPI backend. Database is Tiger Cloud.
-#   DOMAIN=prelude-health.ca docker compose up -d --build
+#   DOMAIN=clinicquick.ca docker compose up -d --build
 services:
   api:
     build: ./backend
