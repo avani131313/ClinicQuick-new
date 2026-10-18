@@ -16,6 +16,7 @@ from pydantic import BaseModel, Field
 from . import db, gemini, safety, triage
 from .config import MAX_QUESTIONS
 from .context import compact, load_patient, memory
+from ddx.service import lena_hint as ddx_hint
 
 log = logging.getLogger("prelude.interview")
 
@@ -435,6 +436,7 @@ def _gemini_next(encounter_id: str, state: dict, ctx: dict) -> InterviewerOut | 
         f"MUST ASK FOR THIS PATIENT (if not already answered): {must_ask(ctx, state.get('category'))}\n"
         f"QUESTIONS REMAINING BUDGET: {remaining}\n\n"
         f"TRANSCRIPT SO FAR:\n{transcript}\n\n"
+        f"{ddx_hint(encounter_id)}\n"
         "Return the next question JSON."
     )
     return gemini.generate_json(INTERVIEWER_SYSTEM, prompt, InterviewerOut, temperature=0.4)

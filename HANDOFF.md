@@ -20,6 +20,7 @@ Read README.md first for setup. This file explains the current state and what's 
 | app/accounts.py | Register patient/clinician, profile CRUD, doctors + booking, doctor views, interview media, /tts, connections. |
 | app/gemini.py | Gemini wrapper: JSON schemas, thinking-level fallback ladder, 12 s cap per question. |
 | app/tts.py | Gemini text-to-speech for the turn-based talk mode. |
+| ddx/ (backend) | **Symptom model (DDX)**: LightGBM on DDXPlus ranks the top 5 conditions with probabilities for the doctor only (panel on the visit page and share link), gives Lena hidden hints (typed and live voice), adds safe next steps for the patient. See backend/ddx/README.md. |
 
 ## Key frontend files
 | File | What it does |
@@ -37,6 +38,7 @@ Read README.md first for setup. This file explains the current state and what's 
 Reset everything with `python -m scripts.seed --reset` (from backend/, WIPES ALL DATA):
 - aisha@prelude.demo: 23F, healthy, past UTI. Say "blood in my urine": asked about her period, see-soon urgency.
 - robert@prelude.demo: 68M, former smoker, AF on apixaban. Same complaint: asked about other bleeding, same-day urgency, malignancy must be ruled out.
+- Doctor view of either check-in: the "Symptom model: top 5" panel. Aisha → UTI first, period bleeding second, with a question about her period. Robert → enlarged prostate, then bladder / prostate / kidney cancer flagged "must rule out".
 - dr.chen@prelude.demo: Dr. Maya Chen. Upcoming + past appointments, patient history page (/doctor/patient/[id]).
 
 ## Status

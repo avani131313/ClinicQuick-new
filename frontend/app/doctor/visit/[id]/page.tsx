@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ClinicianNote from "@/components/ClinicianNote";
+import DdxPanel from "@/components/DdxPanel";
 import { Footer, TopBar, useRequireRole } from "@/components/ui";
 import { api } from "@/lib/api";
 
@@ -37,6 +38,7 @@ export default function DoctorVisit() {
       <main className="wrap" style={{ paddingTop: 26, paddingBottom: 30 }}>
         <p style={{ margin: "0 0 18px" }}><Link href="/doctor" style={{ color: "var(--text-2)", textDecoration: "none" }}>← Today</Link>{d?.patient_id ? <> · <Link href={`/doctor/patients/${d.patient_id}`} style={{ color: "var(--text-2)", textDecoration: "none" }}>Patient dashboard</Link></> : null}</p>
         {err && <p className="error">{err}</p>}
+        {d?.report && <DdxPanel encounterId={id} />}
         {d?.report ? <ClinicianNote c={d.report.clinician} /> : !err && <p className="muted">Loading the intake note…</p>}
         {d && (
           <section className="sheet" style={{ marginTop: 24 }}>

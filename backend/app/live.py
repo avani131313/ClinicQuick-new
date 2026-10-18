@@ -28,11 +28,13 @@ from . import db, gemini, safety, triage
 from .auth import read_token
 from .context import compact, load_patient, memory
 from .interview import PERSONALISED_RULES, SLOT_LABELS, SLOTS, coverage, required_for
+from ddx.service import live_hint as ddx_live_hint  # DDX: hidden decision-support hint for Lena
 
 log = logging.getLogger("prelude.live")
 router = APIRouter()
 LIVE_MODEL = os.getenv("GEMINI_LIVE_MODEL", "gemini-3.8-live")
 LIVE_VOICE = os.getenv("GEMINI_LIVE_VOICE", "Kore")
+DDX_LIVE_HINTS = os.getenv("DDX_LIVE_HINTS", "1") != "0"  # DDX: set to 0 to stop hints in live voice
 
 SYSTEM = """You are Lena, a warm, calm AI intake assistant speaking OUT LOUD with a patient before they see a clinician.
 You are doing the nurse's pre-visit interview. Speak naturally and briefly, like a kind triage nurse on the phone.
@@ -211,6 +213,8 @@ async def live(ws: WebSocket, encounter_id: str, t: str = ""):
     n_answers = 0
     finishing = False
     sheet_task: asyncio.Task | None = None
+    ddx_task: asyncio.Task | None = None  # DDX hint state
+    ddx_sent, ddx_pending = "", ""
 
     async def send(obj):
         try:
@@ -227,6 +231,28 @@ async def live(ws: WebSocket, encounter_id: str, t: str = ""):
         async with gemini.client().aio.live.connect(model=LIVE_MODEL, config=config) as session:
             await session.send_realtime_input(text="(The patient has just joined the call.)")
             await send({"type": "ready", "model": LIVE_MODEL})
+
+            async def ddx_push():
+                # DDX: give Lena the newest hidden hint, only between turns so she is never cut off mid-sentence
+                nonlocal ddx_sent, ddx_pending
+                if not ddx_pending or lena_buf.strip():
+                    return
+                hint, ddx_pending = ddx_pending, ""
+                try:
+                    await session.send_client_content(turns=types.Content(role="user", parts=[types.Part(text=(
+                        "(Note from the clinic system, not said by the patient. Do not read it aloud or reply to it.)" + hint))]),
+                        turn_complete=False)
+                    ddx_sent = hint
+                except Exception as e:  # noqa: BLE001  never break the call
+                    log.warning("ddx live hint not sent: %s", e)
+
+            async def ddx_refresh():
+                # DDX: re-rank after each answer (in a thread), then push the hint if Lena is quiet
+                nonlocal ddx_pending
+                hint = await asyncio.to_thread(ddx_live_hint, encounter_id)
+                if hint and hint != ddx_sent:
+                    ddx_pending = hint
+                    await ddx_push()
 
             async def from_browser():
                 nonlocal finishing
@@ -248,7 +274,7 @@ async def live(ws: WebSocket, encounter_id: str, t: str = ""):
                             return
 
             async def from_gemini():
-                nonlocal lena_buf, user_buf, last_q, n_answers, finishing, sheet_task
+                nonlocal lena_buf, user_buf, last_q, n_answers, finishing, sheet_task, ddx_task
                 while True:
                     async for r in session.receive():
                         if r.tool_call:
@@ -289,9 +315,13 @@ async def live(ws: WebSocket, encounter_id: str, t: str = ""):
                                 n_answers += 1
                                 if sheet_task is None or sheet_task.done():
                                     sheet_task = asyncio.create_task(refresh_sheet())
+                                if DDX_LIVE_HINTS and (ddx_task is None or ddx_task.done()):
+                                    ddx_task = asyncio.create_task(ddx_refresh())
                             if lena_buf.strip():
                                 last_q = lena_buf.strip()
                             lena_buf, user_buf = "", ""
+                            if DDX_LIVE_HINTS:
+                                await ddx_push()  # a hint that arrived while Lena was talking
                             await send({"type": "turn_complete", "answers": n_answers})
                             if finishing:
                                 await send({"type": "done"})

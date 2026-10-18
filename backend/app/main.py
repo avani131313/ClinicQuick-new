@@ -19,6 +19,8 @@ app = FastAPI(title="ClinicQuick API", version="0.1.0")
 # Auth uses bearer tokens (no cookies), so credentials are off and "*" is safe for a demo.
 app.include_router(accounts.router)
 app.include_router(live.router)
+from ddx.router import router as ddx_router  # DDX decision support (doctor-only)
+app.include_router(ddx_router)
 app.include_router(meds.router)
 app.include_router(notifications.router)
 app.include_router(walkin.router)
