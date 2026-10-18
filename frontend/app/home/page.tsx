@@ -8,7 +8,7 @@ import BodyScene, { Hotspot } from "@/components/health/BodyScene";
 import { Metric, WeekChanges, fmt } from "@/components/health/charts";
 import { Footer, TopBar, useRequireRole } from "@/components/ui";
 import { api } from "@/lib/api";
-import { speechRecognitionSupported, unlockAudio } from "@/lib/voice";
+import { voiceSupported, unlockAudio } from "@/lib/voice";
 import s from "./home.module.css";
 
 const URG: Record<string, [string, string]> = {
@@ -34,7 +34,7 @@ export default function Home() {
   const loadHealth = () => api("/health/me").then(setH).catch(() => {});
   useEffect(() => {
     if (!ok) return;
-    setCanTalk(speechRecognitionSupported());
+    setCanTalk(voiceSupported());
     api("/me").then(setMe).catch((e) => setErr(e.message));
     api("/appointments").then(setAppts).catch(() => {});
     loadHealth();

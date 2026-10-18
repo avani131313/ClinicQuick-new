@@ -8,7 +8,7 @@ import { speak, stopSpeaking, useSpeechInput } from "@/lib/speech";
 import TalkMode from "@/components/TalkMode";
 import LiveMode from "@/components/LiveMode";
 import VoiceOrb, { OrbMode } from "@/components/VoiceOrb";
-import { audio, say, speechRecognitionSupported, unlockAudio } from "@/lib/voice";
+import { audio, say, speechRecognitionSupported, unlockAudio, voiceSupported } from "@/lib/voice";
 import s from "./visit.module.css";
 
 type View = {
@@ -42,7 +42,7 @@ export default function Visit() {
   const orbLevel = useRef(0);
   const orbMode = useRef<OrbMode>("idle");
   useEffect(() => {
-    if (!speechRecognitionSupported()) { setMode("type"); return; }
+    if (!voiceSupported()) { setMode("type"); return; }
     let pref: string | null = null;
     try { pref = localStorage.getItem("prelude.mode"); } catch {}
     let running = false;
@@ -168,7 +168,7 @@ export default function Visit() {
         encounterId={id}
         onRedFlag={(rf) => setView({ ...view, red_flag: rf, status: "stopped_red_flag" })}
         onDone={finish}
-        onFallback={(why) => { setNotice(why); setMode("talk"); api(`/encounters/${id}`).then((r) => { setView(r.encounter); setTurns(r.transcript.filter((t: Turn) => t.answer !== null)); }).catch(() => {}); }}
+        onFallback={(why) => { setNotice(why); setMode(speechRecognitionSupported() ? "talk" : "type"); api(`/encounters/${id}`).then((r) => { setView(r.encounter); setTurns(r.transcript.filter((t: Turn) => t.answer !== null)); }).catch(() => {}); }}
         onType={() => { try { localStorage.setItem("prelude.mode", "type"); } catch {} setMode("type"); api(`/encounters/${id}`).then((r) => { setView(r.encounter); setTurns(r.transcript.filter((t: Turn) => t.answer !== null)); }).catch(() => {}); }}
         onAttach={attach}
       />
@@ -293,7 +293,7 @@ export default function Visit() {
             </div>
             <div className={s.below}>
               {err || voice.error ? <span className="error" role="alert">{err || voice.error}</span> : <span className="small">If this is an emergency, call 911. ClinicQuick doesn't diagnose.</span>}
-              {speechRecognitionSupported() && <button type="button" className="linkish small" onClick={() => pick("talk")}>Switch to talking</button>}
+              {voiceSupported() && <button type="button" className="linkish small" onClick={() => pick("talk")}>Switch to talking</button>}
               {(view.asked ?? 0) >= 5 && <button type="button" className="linkish small" onClick={finish}>That's everything, write my summary</button>}
             </div>
           </form>

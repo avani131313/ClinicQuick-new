@@ -48,20 +48,24 @@ def read_token(token: str) -> dict:
     try:
         payload, sig = token.split(".")
     except ValueError:
-        raise HTTPException(401, "Bad token")
+        raise HTTPException(401, "Your session is no longer valid. Please sign in again.")
     good = _b64(hmac.new(JWT_SECRET.encode(), payload.encode(), hashlib.sha256).digest())
     if not hmac.compare_digest(sig, good):
-        raise HTTPException(401, "Bad token")
+        raise HTTPException(401, "Your session is no longer valid. Please sign in again.")
     data = json.loads(_unb64(payload))
     if data["exp"] < time.time():
-        raise HTTPException(401, "Session expired")
+        raise HTTPException(401, "Your session has expired. Please sign in again.")
     return data
 
 
 def current_user(authorization: str = Header(default="")) -> dict:
     if not authorization.lower().startswith("bearer "):
         raise HTTPException(401, "Sign in required")
-    return read_token(authorization.split(" ", 1)[1])
+    user = read_token(authorization.split(" ", 1)[1])
+    from . import db  # the account may have been removed (e.g. demo data reset) since the token was issued
+    if not db.q1("SELECT 1 FROM users WHERE id = %s", (user["uid"],)):
+        raise HTTPException(401, "Your session is no longer valid. Please sign in again.")
+    return user
 
 
 def require_role(user: dict, *roles: str) -> None:

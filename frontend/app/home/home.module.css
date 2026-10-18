@@ -26,10 +26,10 @@
 .visits { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
 .visits li { border-bottom: 1px solid var(--line); animation: rowIn .55s var(--ease) both; }
 @keyframes rowIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.visits a { display: grid; grid-template-columns: 74px 1fr auto; gap: 16px; align-items: center; padding: 18px 8px; text-decoration: none; color: var(--text); border-radius: 12px; transition: background-color .25s, padding .35s var(--ease); }
+.visits a { display: grid; grid-template-columns: 74px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 18px 8px; text-decoration: none; color: var(--text); border-radius: 12px; transition: background-color .25s, padding .35s var(--ease); }
 .visits a:hover { background: color-mix(in srgb, var(--text) 4%, transparent); padding-left: 16px; color: var(--text); }
 .visits time { color: var(--text-3); font-size: .9rem; }
-.what { font-weight: 700; }
+.what { font-weight: 700; overflow-wrap: anywhere; }
 .step { color: var(--text-2); white-space: nowrap; font-size: .92rem; }
 .metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .side { display: grid; gap: 16px; align-content: start; }
@@ -44,3 +44,4 @@
   .metrics { grid-template-columns: 1fr 1fr; }
   .figureCta { white-space: normal; flex-wrap: wrap; justify-content: center; border-radius: 18px; width: calc(100% - 32px); }
 }
+@media (max-width: 600px) { .visits a { grid-template-columns: 56px minmax(0, 1fr); gap: 4px 12px; } .step { grid-column: 2; } }

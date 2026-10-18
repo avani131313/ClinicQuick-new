@@ -264,7 +264,7 @@ def book(b: Book, user=Depends(current_user)):
     except Exception:
         raise HTTPException(409, "That time was just taken. Pick another one.")
     audit(user["uid"], "appointment_booked", pid, {"clinician": b.clinician_id, "encounter": b.encounter_id})
-    return my_appointments(user)[0] if row else None
+    return next((a for a in my_appointments(user) if a["id"] == str(row["id"])), None) if row else None
 
 
 def _appt_rows(where: str, params) -> list[dict]:
@@ -562,6 +562,8 @@ def get_connections(user=Depends(current_user)):
 @router.post("/wearables/demo")
 def demo_data(user=Depends(current_user)):
     require_role(user, "patient")
+    if not user.get("pid"):
+        raise HTTPException(400, "Set up your profile first.")
     n = synthetic.demo_wearables(user["pid"])
     from .context import invalidate
     invalidate(user["pid"])

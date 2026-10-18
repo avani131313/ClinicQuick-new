@@ -136,7 +136,7 @@ input[type=text], input[type=email], input[type=password], input[type=number], i
 }
 input::placeholder, textarea::placeholder { color: var(--text-3); }
 input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
-input[type=file] { color: var(--text-2); font: inherit; }
+input[type=file] { color: var(--text-2); font: inherit; max-width: 100%; }
 input[type=file]::file-selector-button {
   font: inherit; font-weight: 700; margin-right: 12px; padding: 8px 14px; border-radius: 999px;
   border: 1px solid var(--line-2); background: var(--surface-3); color: var(--text); cursor: pointer;
