@@ -79,7 +79,7 @@ def rank(age: int, sex: str | None, codes: list[str], top: int = 5, chief: list[
     p = cap_probabilities(p)
     conds = catalog()["conditions"]
     out = []
-    for i in np.argsort(-p)[:top]:
+    for i in [j for j in np.argsort(-p) if p[j] > 0][:top]:  # never pad the list with ruled-out (0%) conditions
         c = conds.get(names[i], {})
         sev = c.get("severity")
         out.append({"name": names[i], "probability": round(float(p[i]), 4), "icd10": c.get("icd10"),

@@ -23,14 +23,16 @@ def _clinician_for(pid: str) -> str:
     return r["name"] if r else "Your clinician"
 
 
-def plan(pid: str) -> list[dict]:
+def plan(pid: str | None) -> list[dict]:
+    if not pid:
+        raise HTTPException(400, "Set up your profile first.")
     rows = db.q("SELECT id, exercise, sets, reps, notes, assigned_by, created_at FROM exercise_plans WHERE patient_id=%s AND active ORDER BY id", (pid,))
     if not rows and not db.q1("SELECT 1 FROM exercise_plans WHERE patient_id=%s", (pid,)):
         # demo: start everyone with a gentle plan from their clinician
         who = _clinician_for(pid)
         for ex, sets, reps, notes in DEFAULTS:
             db.exe("INSERT INTO exercise_plans (patient_id, exercise, sets, reps, notes, assigned_by) VALUES (%s,%s,%s,%s,%s,%s)", (pid, ex, sets, reps, notes, who))
-        return plan(pid)
+        rows = db.q("SELECT id, exercise, sets, reps, notes, assigned_by, created_at FROM exercise_plans WHERE patient_id=%s AND active ORDER BY id", (pid,))
     out = []
     for r in rows:
         r = dict(r)

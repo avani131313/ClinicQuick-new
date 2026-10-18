@@ -115,9 +115,23 @@ export function speechRecognitionSupported() {
   return typeof window !== "undefined" && !!((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
 }
 
+/** Live voice (Gemini Live) only needs the microphone, Web Audio worklets and a WebSocket — works in Firefox too. */
+export function liveVoiceSupported() {
+  if (typeof window === "undefined") return false;
+  const w = window as any;
+  return !!(window.isSecureContext && typeof navigator.mediaDevices?.getUserMedia === "function" && (w.AudioContext || w.webkitAudioContext)
+    && w.AudioWorkletNode && w.WebSocket);
+}
+
+/** Show "Talk to Lena" when either voice mode can run (live voice first; Web Speech talk mode is the fallback). */
+export function voiceSupported() {
+  return liveVoiceSupported() || speechRecognitionSupported();
+}
+
 /** One listening turn. Resolves with the final words when the patient pauses (or "" if nothing was heard). */
 export function listenOnce(onInterim: (t: string) => void): { result: Promise<string>; stop: () => void } {
   const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+  if (!SR) return { result: Promise.reject(new Error("This browser can't listen in this mode. Type your answer instead.")), stop: () => {} };
   const rec = new SR();
   rec.lang = "en-CA";
   rec.interimResults = true;

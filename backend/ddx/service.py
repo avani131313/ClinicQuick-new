@@ -57,7 +57,7 @@ def _inputs(encounter_id: str) -> tuple[dict, dict, list[dict], list[dict]]:
 
 HEALTH_CODES = ("steps", "rhr", "spo2", "sleep_min", "weight", "bp_sys", "bp_dia", "resp_rate",
                 "temp", "body_temp", "temperature")
-CODE_VERSION = "5"  # bump when the evidence or ranking logic changes, so cached rankings refresh
+CODE_VERSION = "6"  # bump when the evidence or ranking logic changes, so cached rankings refresh
 
 
 def _model_version() -> str:

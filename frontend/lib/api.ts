@@ -52,7 +52,13 @@ export async function api<T = any>(path: string, opts: { method?: string; body?:
       const j = await res.json();
       msg = typeof j.detail === "string" ? j.detail : JSON.stringify(j.detail);
     } catch {}
-    if (res.status === 401) setSession(null);
+    if (res.status === 401) {
+      setSession(null);
+      // a saved sign-in that no longer works (expired, or demo data was reset): go to sign-in instead of a dead page
+      if (headers["Authorization"] && typeof window !== "undefined" && !window.location.pathname.startsWith("/login")) {
+        window.location.href = "/login";
+      }
+    }
     throw new ApiError(res.status, msg);
   }
   return res.json();

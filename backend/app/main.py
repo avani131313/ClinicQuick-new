@@ -3,9 +3,12 @@ from __future__ import annotations
 
 import logging
 import secrets
+
+import psycopg
 from datetime import date, datetime, timedelta, timezone
 
-from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -16,6 +19,12 @@ from .context import load_patient, modifiers
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 app = FastAPI(title="ClinicQuick API", version="0.1.0")
+
+
+@app.exception_handler(psycopg.errors.InvalidTextRepresentation)
+async def _bad_id(request: Request, exc: Exception):
+    # a malformed id in the URL or body (e.g. /encounters/abc) is "not found", not a server error
+    return JSONResponse(status_code=404, content={"detail": "Not found"})
 # Auth uses bearer tokens (no cookies), so credentials are off and "*" is safe for a demo.
 app.include_router(accounts.router)
 app.include_router(live.router)
@@ -442,6 +451,8 @@ class CheckIn(BaseModel):
 @app.post("/care/residents/{patient_id}/checkins")
 def add_checkin(patient_id: str, c: CheckIn, user=Depends(current_user)):
     require_role(user, "care_team")
+    if not db.q1("SELECT 1 FROM patients WHERE id = %s AND facility IS NOT NULL", (patient_id,)):
+        raise HTTPException(404, "Resident not found")
     u = db.q1("SELECT display_name FROM users WHERE id=%s", (user["uid"],))
     db.exe("""INSERT INTO checkins (patient_id, ts, ate_meals, slept_ok, dizzy, fell, confused, pain, note, recorded_by)
               VALUES (%s, now(), %s,%s,%s,%s,%s,%s,%s,%s)""",
@@ -453,6 +464,8 @@ def add_checkin(patient_id: str, c: CheckIn, user=Depends(current_user)):
 @app.post("/care/residents/{patient_id}/acknowledge")
 def acknowledge(patient_id: str, user=Depends(current_user)):
     require_role(user, "care_team", "clinician")
+    if not db.q1("SELECT 1 FROM patients WHERE id = %s AND facility IS NOT NULL", (patient_id,)):
+        raise HTTPException(404, "Resident not found")
     u = db.q1("SELECT display_name FROM users WHERE id=%s", (user["uid"],))
     row = db.q1("SELECT id FROM alerts WHERE patient_id=%s ORDER BY ts DESC LIMIT 1", (patient_id,))
     if row:
