@@ -7,6 +7,9 @@ load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres@localhost:5432/prelude")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+# Several keys (comma-separated), tried in order: when one runs out of quota the app switches to the next.
+# Keys must come from DIFFERENT Google projects: free-tier quota is shared by every key in one project.
+GEMINI_API_KEYS = [k.strip() for k in (os.getenv("GEMINI_API_KEYS") or GEMINI_API_KEY).split(",") if k.strip()]
 # Fast model for interview turns, stronger model for reports and document extraction.
 # Model IDs from ai.google.dev/gemini-api/docs/models (checked Oct 17 2026) — override in .env.
 GEMINI_FAST_MODEL = os.getenv("GEMINI_FAST_MODEL", "gemini-3.8-flash")

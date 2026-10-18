@@ -345,6 +345,7 @@ async def live(ws: WebSocket, encounter_id: str, t: str = ""):
     except Exception as e:
         log.exception("live session failed")
         gemini.LAST_ERROR = f"live: {type(e).__name__}: {str(e)[:300]}"
+        gemini.rotate(e)  # out of quota: the next call (and the fallback voice mode) uses the next key
         await send({"type": "error", "message": "The live voice connection dropped. Switching to the standard voice mode."})
     finally:
         try:

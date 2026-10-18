@@ -10,41 +10,77 @@ from typing import TypeVar
 
 from pydantic import BaseModel, ValidationError
 
-from .config import GEMINI_API_KEY, GEMINI_EMBED_MODEL, GEMINI_FAST_MODEL, GEMINI_SMART_MODEL
+from .config import GEMINI_API_KEYS, GEMINI_EMBED_MODEL, GEMINI_FAST_MODEL, GEMINI_SMART_MODEL
 
 log = logging.getLogger("prelude.gemini")
 T = TypeVar("T", bound=BaseModel)
 
 import os
 
-_client = None
-_fast_client = None
 LAST_ERROR: str | None = None
 # A patient should never wait longer than this for the next question. If Gemini is slower,
 # that turn uses the built-in question set instead (logged), and the next turn tries Gemini again.
 TURN_TIMEOUT_S = float(os.getenv("GEMINI_TURN_TIMEOUT", "12"))
 
 
+# ---- several API keys: when the active one runs out of quota, switch to the next ----
+KEYS = GEMINI_API_KEYS
+KEY_COOLDOWN_S = float(os.getenv("GEMINI_KEY_COOLDOWN", "600"))  # how long an exhausted key is skipped
+_active = 0
+_resting: dict[int, float] = {}            # key index -> time it may be used again
+_clients: dict[tuple[int, str], object] = {}
+
+
 def enabled() -> bool:
-    return bool(GEMINI_API_KEY)
+    return bool(KEYS)
+
+
+def active_key() -> int:
+    """1-based number of the key in use (for /health)."""
+    return _active + 1 if KEYS else 0
+
+
+def _make(kind: str):
+    if not KEYS:
+        return None
+    k = (_active, kind)
+    if k not in _clients:
+        from google import genai
+        from google.genai import types
+        ms = 90_000 if kind == "smart" else int(TURN_TIMEOUT_S * 1000)
+        _clients[k] = genai.Client(api_key=KEYS[_active], http_options=types.HttpOptions(timeout=ms))
+    return _clients[k]
 
 
 def client():
-    global _client
-    if _client is None and GEMINI_API_KEY:
-        from google import genai
-        from google.genai import types
-        _client = genai.Client(api_key=GEMINI_API_KEY, http_options=types.HttpOptions(timeout=90_000))
-    return _client
+    return _make("smart")
 
 
 def fast_client():
-    global _fast_client
-    if _fast_client is None and GEMINI_API_KEY:
-        from google import genai
-        from google.genai import types
-        _fast_client = genai.Client(api_key=GEMINI_API_KEY, http_options=types.HttpOptions(timeout=int(TURN_TIMEOUT_S * 1000)))
-    return _fast_client
+    return _make("fast")
+
+
+def is_quota_error(e: Exception) -> bool:
+    m = str(e)
+    return "429" in m or "RESOURCE_EXHAUSTED" in m or "quota" in m.lower()
+
+
+def rotate(e: Exception) -> bool:
+    """Call after a failed Gemini call. If it was a quota error and another key is available, switch to it
+    and return True (the caller retries once with client()/fast_client())."""
+    global _active
+    if not is_quota_error(e) or len(KEYS) < 2:
+        return False
+    now = time.time()
+    _resting[_active] = now + KEY_COOLDOWN_S
+    for step in range(1, len(KEYS)):
+        i = (_active + step) % len(KEYS)
+        if _resting.get(i, 0) <= now:
+            log.warning("gemini key %d is out of quota; switching to key %d of %d", _active + 1, i + 1, len(KEYS))
+            _active = i
+            return True
+    log.warning("all %d gemini keys are out of quota", len(KEYS))
+    return False
 
 
 # Models differ in which thinking controls they accept. Try the cheapest setting first and
@@ -75,6 +111,7 @@ def generate_json(system: str, prompt: str, schema: type[T], *, smart: bool = Fa
     ladder = _LADDER[_LADDER.index(want):] if want in _LADDER else _LADDER
     step_i = _model_step.get(model + want, 0)
     invalid = 0
+    switches = 0
     while step_i < len(ladder):
         step = ladder[step_i]
         try:
@@ -104,6 +141,10 @@ def generate_json(system: str, prompt: str, schema: type[T], *, smart: bool = Fa
                 return None
         except Exception as e:  # network, quota, model name, timeout
             msg = str(e)
+            if switches < len(KEYS) - 1 and rotate(e):
+                switches += 1
+                c = client() if smart else fast_client()
+                continue
             if "thinking" in msg.lower() and step_i + 1 < len(ladder):
                 log.warning("%s rejected thinking=%s (%s); trying %s", model, step.lower(), msg[:160], ladder[step_i + 1].lower())
                 step_i += 1
@@ -124,16 +165,20 @@ def generate_text(system: str, prompt: str, *, temperature: float = 0.3) -> str 
         return None
     from google.genai import types
     step = _LADDER[_model_step.get(GEMINI_FAST_MODEL + "MINIMAL", 0)]
-    try:
-        resp = c.models.generate_content(
-            model=GEMINI_FAST_MODEL, contents=[prompt],
-            config=types.GenerateContentConfig(system_instruction=system, temperature=temperature,
-                                               thinking_config=_thinking(types, step)))
-        return (resp.text or "").strip() or None
-    except Exception as e:
-        LAST_ERROR = f"{type(e).__name__}: {e}"
-        log.warning("gemini text failed: %s", e)
-        return None
+    for _ in range(max(1, len(KEYS))):
+        try:
+            resp = c.models.generate_content(
+                model=GEMINI_FAST_MODEL, contents=[prompt],
+                config=types.GenerateContentConfig(system_instruction=system, temperature=temperature,
+                                                   thinking_config=_thinking(types, step)))
+            return (resp.text or "").strip() or None
+        except Exception as e:
+            LAST_ERROR = f"{type(e).__name__}: {e}"
+            log.warning("gemini text failed: %s", e)
+            if not rotate(e):
+                return None
+            c = fast_client()
+    return None
 
 
 def embed(texts: list[str]) -> list[list[float]] | None:
@@ -141,13 +186,17 @@ def embed(texts: list[str]) -> list[list[float]] | None:
     if c is None or not texts:
         return None
     from google.genai import types
-    try:
-        resp = c.models.embed_content(model=GEMINI_EMBED_MODEL, contents=texts,
-                                      config=types.EmbedContentConfig(output_dimensionality=768))
-        return [e.values for e in resp.embeddings]
-    except Exception as e:
-        log.warning("embedding failed: %s", e)
-        return None
+    for _ in range(max(1, len(KEYS))):
+        try:
+            resp = c.models.embed_content(model=GEMINI_EMBED_MODEL, contents=texts,
+                                          config=types.EmbedContentConfig(output_dimensionality=768))
+            return [e.values for e in resp.embeddings]
+        except Exception as e:
+            log.warning("embedding failed: %s", e)
+            if not rotate(e):
+                return None
+            c = client()
+    return None
 
 
 def file_part(data: bytes, mime: str):

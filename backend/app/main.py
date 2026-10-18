@@ -59,7 +59,8 @@ def audit(actor: str, action: str, patient_id: str | None, detail: dict | None =
 @app.get("/health")
 def health():
     from . import tts
-    return {"ok": True, "features": db.FEATURES, "gemini": gemini.enabled(), "gemini_last_error": gemini.LAST_ERROR,
+    return {"ok": True, "features": db.FEATURES, "gemini": gemini.enabled(), "gemini_keys": len(gemini.KEYS), "gemini_active_key": gemini.active_key(),
+            "gemini_last_error": gemini.LAST_ERROR,
             "tts_model": tts.TTS_MODEL, "tts_last_error": tts.LAST_ERROR, "live_model": live.LIVE_MODEL}
 
 

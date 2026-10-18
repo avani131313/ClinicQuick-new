@@ -90,4 +90,6 @@ def speak(text: str) -> bytes | None:
         except Exception as e:
             LAST_ERROR = f"{fn.__name__}: {type(e).__name__}: {e}"
             log.warning("tts %s failed: %s", fn.__name__, e)
+            if gemini.rotate(e):  # out of quota: the next voice line uses the next key
+                c = gemini.client()
     return None
