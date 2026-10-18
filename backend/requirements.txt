@@ -8,3 +8,8 @@ google-genai==2.31.0
 httpx
 python-multipart
 pytest
+# DDX symptom model
+numpy
+pandas
+scikit-learn
+lightgbm

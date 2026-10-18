@@ -1,0 +1,464 @@
+[
+ {
+  "name": "Anaphylaxis",
+  "name_fr": "Anaphylaxie",
+  "icd10": "T78.0",
+  "severity": 1,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Possible NSTEMI / STEMI",
+  "name_fr": "Possible NSTEMI / STEMI",
+  "icd10": "I21",
+  "severity": 1,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Acute pulmonary edema",
+  "name_fr": "OAP/Surcharge pulmonaire",
+  "icd10": "J81.0",
+  "severity": 1,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Larygospasm",
+  "name_fr": "Laryngospasme",
+  "icd10": "J38.5",
+  "severity": 1,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Ebola",
+  "name_fr": "Ebola",
+  "icd10": "A98.4",
+  "severity": 1,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Pulmonary embolism",
+  "name_fr": "Embolie pulmonaire",
+  "icd10": "I26",
+  "severity": 2,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Acute dystonic reactions",
+  "name_fr": "Réaction dystonique aïgue",
+  "icd10": "G24.02",
+  "severity": 2,
+  "organ_system": "neurological_psychiatric",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Guillain-Barré syndrome",
+  "name_fr": "Syndrome de Guillain-Barré",
+  "icd10": "G61.0",
+  "severity": 2,
+  "organ_system": "neurological_psychiatric",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Unstable angina",
+  "name_fr": "Angine instable",
+  "icd10": "I20.0",
+  "severity": 2,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Stable angina",
+  "name_fr": "Angine stable",
+  "icd10": "I20.9",
+  "severity": 2,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Epiglottitis",
+  "name_fr": "Épiglottite",
+  "icd10": "J05.1",
+  "severity": 2,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "PSVT",
+  "name_fr": "TSVP",
+  "icd10": "I47.1",
+  "severity": 2,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Scombroid food poisoning",
+  "name_fr": "Scombroïde",
+  "icd10": "T61.1",
+  "severity": 2,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Boerhaave",
+  "name_fr": "Syndrome de Boerhaave",
+  "icd10": "K22.3",
+  "severity": 2,
+  "organ_system": "gastrointestinal_thoracic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Myocarditis",
+  "name_fr": "Myocardite",
+  "icd10": "I51.4",
+  "severity": 2,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Spontaneous pneumothorax",
+  "name_fr": "Pneumothorax spontané",
+  "icd10": "J93",
+  "severity": 2,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Croup",
+  "name_fr": "Laryngo-trachéo-bronchite (Croup)",
+  "icd10": "J05.0",
+  "severity": 2,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "HIV (initial infection)",
+  "name_fr": "VIH (Primo-infection)",
+  "icd10": "B20",
+  "severity": 3,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Pneumonia",
+  "name_fr": "Pneumonie",
+  "icd10": "J17, J18",
+  "severity": 3,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Influenza",
+  "name_fr": "Possible influenza ou syndrome virémique typique",
+  "icd10": "J11.1",
+  "severity": 3,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "GERD",
+  "name_fr": "RGO",
+  "icd10": "K21",
+  "severity": 3,
+  "organ_system": "gastrointestinal_thoracic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Cluster headache",
+  "name_fr": "Céphalée en grappe",
+  "icd10": "G44.009",
+  "severity": 3,
+  "organ_system": "neurological_psychiatric",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Atrial fibrillation",
+  "name_fr": "Fibrillation auriculaire/Flutter auriculaire",
+  "icd10": "I48.91",
+  "severity": 3,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Inguinal hernia",
+  "name_fr": "Hernie inguinale",
+  "icd10": "K40",
+  "severity": 3,
+  "organ_system": "gastrointestinal_thoracic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Pancreatic neoplasm",
+  "name_fr": "Néoplasie du pancréas",
+  "icd10": "C25",
+  "severity": 3,
+  "organ_system": "gastrointestinal_thoracic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Bronchiectasis",
+  "name_fr": "Bronchiectasies",
+  "icd10": "J47",
+  "severity": 3,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Myasthenia gravis",
+  "name_fr": "Myasthénie grave",
+  "icd10": "G70.0",
+  "severity": 3,
+  "organ_system": "neurological_psychiatric",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Bronchospasm / acute asthma exacerbation",
+  "name_fr": "Asthme exacerbé ou bronchospasme",
+  "icd10": "J45",
+  "severity": 3,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Acute COPD exacerbation / infection",
+  "name_fr": "Exacerbation aigue de MPOC et/ou surinfection associée",
+  "icd10": "J44.1",
+  "severity": 3,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Tuberculosis",
+  "name_fr": "Tuberculose",
+  "icd10": "A15",
+  "severity": 3,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Pulmonary neoplasm",
+  "name_fr": "néoplasie pulmonaire",
+  "icd10": "C34",
+  "severity": 3,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Chagas",
+  "name_fr": "Chagas",
+  "icd10": "B57",
+  "severity": 3,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Spontaneous rib fracture",
+  "name_fr": "Fracture de côte spontanée",
+  "icd10": "S22.9",
+  "severity": 3,
+  "organ_system": "gastrointestinal_thoracic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Bronchiolitis",
+  "name_fr": "Bronchiolite",
+  "icd10": "J21",
+  "severity": 3,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Viral pharyngitis",
+  "name_fr": "Pharyngite virale",
+  "icd10": "J02.9",
+  "severity": 4,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Anemia",
+  "name_fr": "Anémie",
+  "icd10": "D64.9",
+  "severity": 4,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Localized edema",
+  "name_fr": "Oedème localisé ou généralisé sans atteinte pulmonaire associée",
+  "icd10": "R60.0",
+  "severity": 4,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Bronchitis",
+  "name_fr": "Bronchite",
+  "icd10": "J40",
+  "severity": 4,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Acute otitis media",
+  "name_fr": "Otite moyenne aigue (OMA)",
+  "icd10": "H66.90",
+  "severity": 4,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Acute laryngitis",
+  "name_fr": "Laryngite aigue",
+  "icd10": "J04.0",
+  "severity": 4,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Pericarditis",
+  "name_fr": "Péricardite",
+  "icd10": "I30",
+  "severity": 4,
+  "organ_system": "cardiovascular",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Sarcoidosis",
+  "name_fr": "Sarcoïdose",
+  "icd10": "D86",
+  "severity": 4,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Allergic sinusitis",
+  "name_fr": "Rhinite allergique",
+  "icd10": "J30",
+  "severity": 4,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Acute rhinosinusitis",
+  "name_fr": "Rhinosinusite aigue",
+  "icd10": "J01",
+  "severity": 4,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "SLE",
+  "name_fr": "Lupus érythémateux disséminé (LED)",
+  "icd10": "M34",
+  "severity": 4,
+  "organ_system": "infectious_immunologic_hematologic",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Whooping cough",
+  "name_fr": "Coqueluche",
+  "icd10": "A37",
+  "severity": 4,
+  "organ_system": "respiratory_pulmonary",
+  "source": "ddxplus"
+ },
+ {
+  "name": "URTI",
+  "name_fr": "IVRS ou virémie",
+  "icd10": "J06.9",
+  "severity": 5,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Panic attack",
+  "name_fr": "Attaque de panique",
+  "icd10": "F41",
+  "severity": 5,
+  "organ_system": "neurological_psychiatric",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Chronic rhinosinusitis",
+  "name_fr": "Rhinosinusite chronique",
+  "icd10": "J32",
+  "severity": 5,
+  "organ_system": "ent_upper_airway",
+  "source": "ddxplus"
+ },
+ {
+  "name": "Urinary tract infection (cystitis)",
+  "icd10": "N30.0",
+  "severity": 4,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Pyelonephritis (kidney infection)",
+  "icd10": "N10",
+  "severity": 2,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Menstrual or gynecologic bleeding (not from urine)",
+  "icd10": "N92.6",
+  "severity": 5,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Kidney or ureteral stone",
+  "icd10": "N20.0",
+  "severity": 3,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Exercise-induced hematuria",
+  "icd10": "R31.9",
+  "severity": 5,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Glomerulonephritis (kidney inflammation)",
+  "icd10": "N05.9",
+  "severity": 2,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Benign prostatic hyperplasia",
+  "icd10": "N40.1",
+  "severity": 4,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Bladder cancer (must rule out)",
+  "icd10": "C67.9",
+  "severity": 1,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Kidney cancer (must rule out)",
+  "icd10": "C64.9",
+  "severity": 1,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ },
+ {
+  "name": "Prostate cancer (must rule out)",
+  "icd10": "C61",
+  "severity": 1,
+  "organ_system": "genitourinary",
+  "source": "demo_generated"
+ }
+]

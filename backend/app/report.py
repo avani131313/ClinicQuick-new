@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from . import care, db, gemini, scores, triage
 from .context import compact, load_patient, memory, modifiers, remember
 from .interview import SLOT_LABELS, SLOTS, transcript
+from ddx.service import patient_next_steps as ddx_next_steps
 
 DISCLAIMER = ("ClinicQuick is a pre-visit intake tool. It does not diagnose. Your clinician makes all decisions "
               "about your care. If you feel worse or have new severe symptoms, call 911.")
@@ -138,6 +139,7 @@ def generate(encounter_id: str) -> dict:
         next_steps.append(f"In Ontario, pharmacists can assess and prescribe for {ailment.lower()}. Show them your ClinicQuick summary.")
     if level in ("primary_care_soon", "walk_in_today"):
         next_steps.append("No family doctor? Use a walk-in clinic, or call Health811 (8-1-1) for nurse advice any time.")
+    next_steps.extend(s for s in ddx_next_steps(encounter_id) if s not in next_steps)
     next_steps.append("Share your clinician summary at check-in so you don't have to repeat your story.")
     patient_report = {
         "urgency": {"level": level, **u, "reasons": reasons},

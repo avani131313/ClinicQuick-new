@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ClinicianNote from "@/components/ClinicianNote";
+import DdxPanel from "@/components/DdxPanel";
 import { Footer, Mark } from "@/components/ui";
 import { api } from "@/lib/api";
 
@@ -41,6 +42,7 @@ export default function ClinicianPortal() {
       </header>
       <main className="wrap" style={{ padding: "24px 20px" }}>
         {err && <p className="error" role="alert">{err}</p>}
+        {d?.report && <DdxPanel shareToken={token} />}
         {d?.report && <ClinicianNote c={d.report.clinician} />}
 
         {d && (
