@@ -1,0 +1,31 @@
+.dash { display: grid; gap: 18px; }
+.top { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.15fr); gap: 18px; align-items: start; }
+.figure {
+  position: relative; border-radius: 24px; overflow: hidden; border: 1px solid var(--line);
+  background:
+    radial-gradient(60% 50% at 50% 42%, color-mix(in srgb, var(--glow) 16%, transparent), transparent 70%),
+    radial-gradient(70% 30% at 50% 100%, color-mix(in srgb, var(--glow) 12%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--bg-2), var(--bg-deep));
+}
+.figure::before { /* faint measuring grid behind the figure */
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image: linear-gradient(color-mix(in srgb, var(--accent) 5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--accent) 5%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px; mask-image: radial-gradient(70% 70% at 50% 45%, #000, transparent 80%);
+}
+.right { display: grid; gap: 14px; }
+.livePanel { padding: 20px 22px; transition: border-color .35s, box-shadow .35s; }
+.livePanel[data-on] { border-color: color-mix(in srgb, var(--pulse) 50%, transparent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--pulse) 8%, transparent); }
+.empty { border-style: dashed; border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 60%), var(--surface); }
+.empty h3 { font-weight: 400; font-size: 1.4rem; margin-bottom: 8px; }
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.lower { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.wide { grid-column: 1 / -1; }
+.head { display: flex; justify-content: space-between; align-items: baseline; }
+.on { border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 8%, transparent); }
+.kv { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+.kv > div { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.kv dt { font-size: .82rem; color: var(--text-3); }
+.kv dd { margin: 2px 0 0; font-family: var(--display); font-size: 1.25rem; }
+.regen { margin-top: 14px; font-size: .88rem; }
+@media (max-width: 1080px) { .top { grid-template-columns: 1fr; } .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .lower { grid-template-columns: 1fr; } .metrics { grid-template-columns: 1fr 1fr; } }

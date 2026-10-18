@@ -1,0 +1,46 @@
+.live { display: grid; gap: 10px; }
+.liveHead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.liveLabel { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-2); }
+.rec { width: 7px; height: 7px; border-radius: 50%; background: var(--pulse); box-shadow: 0 0 10px var(--pulse); animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .3; } }
+.liveSource { font-size: .82rem; color: var(--text-3); text-align: right; }
+.liveRow { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 22px; }
+.liveValue { margin: 0; font-family: var(--display); font-weight: 300; font-size: clamp(3.4rem, 6vw, 4.8rem); line-height: .9; letter-spacing: -0.04em; color: var(--text); display: flex; align-items: baseline; gap: 8px; }
+.liveValue small { font-family: var(--mono); font-size: .8rem; letter-spacing: .08em; color: var(--pulse); }
+.trace { width: 100%; height: 86px; display: block; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+
+.metric { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 16px 10px; display: grid; gap: 2px; transition: border-color .35s, box-shadow .35s, transform .35s var(--ease); scroll-margin: 90px; }
+.metric:hover { border-color: var(--line-2); transform: translateY(-2px); }
+.metricOn { border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 8%, transparent), 0 18px 40px color-mix(in srgb, var(--shadow-c) 35%, transparent); }
+.mLabel { margin: 0; font-family: var(--mono); font-size: .66rem; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; color: var(--text-3); }
+.mValue { margin: 6px 0 0; font-family: var(--display); font-weight: 400; font-size: 1.85rem; letter-spacing: -0.03em; line-height: 1; display: flex; align-items: baseline; gap: 6px; }
+.mValue small { font-family: var(--mono); font-size: .72rem; color: var(--text-3); letter-spacing: .04em; }
+.mDelta { margin: 4px 0 6px; font-size: .8rem; font-weight: 700; color: var(--text-2); }
+.mDelta span { font-weight: 400; color: var(--text-3); }
+.mDelta[data-good="good"] { color: var(--good); }
+.mDelta[data-good="bad"] { color: var(--amber); }
+.spark { width: 100%; display: block; }
+
+.chartWrap { display: grid; gap: 8px; }
+.chart { width: 100%; height: auto; display: block; overflow: visible; touch-action: pan-y; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.axis { fill: var(--text-3); font-family: var(--mono); font-size: 10px; }
+.cursor { stroke: var(--line-2); stroke-dasharray: 3 3; }
+.avg { stroke: var(--text-2); stroke-dasharray: 4 4; opacity: .5; }
+.band { fill: color-mix(in srgb, var(--accent) 5%, transparent); }
+.bar { transform-origin: bottom; transform-box: fill-box; animation: grow .7s var(--ease) both; transition: opacity .2s; }
+@keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.readout { margin: 0; font-size: .88rem; color: var(--text-2); min-height: 1.4em; }
+.readout :global(.num) { color: var(--text); }
+.week { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.week li { display: grid; grid-template-columns: 1fr 90px auto; gap: 4px 14px; align-items: center; }
+.wLabel { font-weight: 700; }
+.wBar { height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.wBar span { display: block; height: 100%; border-radius: 4px; background: var(--text-3); transform-origin: left; animation: fill .9s var(--ease) both; }
+@keyframes fill { from { transform: scaleX(0); } }
+.week li[data-good="good"] .wBar span { background: var(--good); }
+.week li[data-good="bad"] .wBar span { background: var(--amber); }
+.wVal { font-family: var(--mono); font-size: .82rem; color: var(--text-2); text-align: right; min-width: 74px; }
+.week li[data-good="bad"] .wVal { color: var(--amber); }
+.week li[data-good="good"] .wVal { color: var(--good); }
+.wSub { grid-column: 1 / -1; font-size: .84rem; color: var(--text-3); }

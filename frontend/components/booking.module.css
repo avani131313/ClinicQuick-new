@@ -1,0 +1,11 @@
+.wrap { display: grid; gap: 8px; }
+.fs { border: none; padding: 0; margin: 0 0 14px; }
+.fs legend { font-weight: 700; margin-bottom: 10px; }
+.docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.doc { font: inherit; text-align: left; display: grid; gap: 2px; padding: 14px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface-2); color: var(--text); cursor: pointer; transition: border-color .2s, background .2s; }
+.doc:hover { border-color: var(--ink); }
+.doc[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); box-shadow: inset 0 0 0 1px var(--accent); }
+.doc span { color: var(--graphite); }
+.days { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 2px; }
+.day { font: inherit; font-weight: 700; white-space: nowrap; padding: 8px 14px; border-radius: 8px; border: none; background: transparent; color: var(--graphite); cursor: pointer; }
+.day[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }

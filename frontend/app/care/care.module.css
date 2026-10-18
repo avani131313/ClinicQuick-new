@@ -1,0 +1,31 @@
+.head { padding: 36px 0 22px; }
+.sum { font-size: var(--s1); max-width: 70ch; }
+.table td { padding: 14px 10px; }
+.headline { font-weight: 700; }
+tr.alert td:first-child { box-shadow: inset 4px 0 0 var(--t-today); }
+tr.watch td:first-child { box-shadow: inset 4px 0 0 var(--t-pharm); }
+tr.ok .headline { font-weight: 400; color: var(--graphite); }
+
+.detailHead { padding: 28px 0 18px; display: flex; justify-content: space-between; gap: 20px; align-items: flex-end; flex-wrap: wrap; }
+.detailHead h1 { margin: 0; }
+.grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px; padding: 24px 0 30px; }
+.why { font-size: var(--s1); line-height: 1.5; max-width: 62ch; }
+.by { font-size: .88rem; color: var(--graphite); }
+.signals { list-style: none; padding: 0; margin: 0; }
+.signals li { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.signals h3 { font-family: var(--body); font-size: 1.05rem; font-weight: 700; margin: 0 0 4px; }
+.signals p { margin: 0 0 6px; }
+.check { color: var(--ink-2); font-size: .95rem; }
+.charts { display: grid; gap: 18px; }
+.chart { display: grid; gap: 4px; }
+.chart strong { font-size: .95rem; }
+.ci { font-size: .95rem; }
+.ci td { padding: 8px 6px; }
+.form { display: grid; gap: 10px; }
+.form fieldset { border: none; padding: 0; margin: 0; }
+.form legend { font-weight: 700; margin-bottom: 6px; }
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+@media (max-width: 720px) {
+  .table th:first-child, .table td:first-child { width: 42%; }
+  .headline { font-size: .95rem; }
+}

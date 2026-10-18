@@ -1,0 +1,55 @@
+.note { background: linear-gradient(180deg, var(--surface-2), var(--surface)); border: 1px solid var(--line); border-radius: 24px; padding: 34px 36px; }
+.head { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; border-bottom: 1px solid var(--line-2); padding-bottom: 18px; }
+.name { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 300; margin: 0; }
+.meta { margin: 6px 0 0; color: var(--text-2); }
+.urg { margin: 0; display: grid; text-align: right; font-weight: 700; font-size: .95rem; color: var(--text); padding: 8px 14px; border-radius: 12px; border: 1px solid var(--line-2); white-space: nowrap; }
+.urg small { font-family: var(--mono); font-weight: 400; font-size: .62rem; letter-spacing: .13em; text-transform: uppercase; color: var(--text-3); }
+.urg[data-c="orange"], .urg[data-c="red"] { border-color: color-mix(in srgb, var(--red) 45%, transparent); color: var(--red-text); }
+.oneLiner { font-family: var(--display); font-size: 1.5rem; font-weight: 400; letter-spacing: -0.02em; margin: 20px 0 6px; max-width: 70ch; }
+.grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 40px; margin-top: 18px; }
+.main h2, .side h2, .tx h2 { font-family: var(--mono); font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.main h3 { font-family: var(--body); font-size: .92rem; font-weight: 700; color: var(--text-2); margin: 16px 0 4px; }
+.main ul, .side ul { margin: 0; padding-left: 1.1em; }
+.hpi > div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.hpi dt { color: var(--text-3); }
+.hpi dd { margin: 0; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.screen { background: color-mix(in srgb, var(--t-self) 7%, transparent); border-left: 3px solid var(--t-self); padding: 12px 16px; margin-top: 20px; border-radius: 0 12px 12px 0; }
+.cons { padding-left: 1.3em; margin: 0; }
+.cons li { margin: 10px 0; }
+.consName { font-weight: 700; }
+.lik { font-family: var(--mono); font-size: .72rem; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text-2); margin-left: 4px; }
+.lik[data-l="must rule out"] { border-color: color-mix(in srgb, var(--red) 50%, transparent); color: var(--red-text); }
+.lik[data-l="higher"] { border-color: color-mix(in srgb, var(--amber) 50%, transparent); color: var(--amber); }
+.because { display: block; color: var(--text-2); font-size: .92rem; }
+.side { border-left: 1px solid var(--line); padding-left: 28px; }
+.kv > div { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.kv dt { color: var(--text-3); font-size: .85rem; }
+.kv dd { margin: 2px 0 0; }
+.scores { list-style: none; padding: 0 !important; }
+.scores li { padding: 9px 0; border-bottom: 1px solid var(--line); display: grid; }
+.scoreName { font-weight: 700; }
+.scoreVal[data-sev="2"] { color: var(--red-text); font-weight: 700; }
+.scoreVal[data-sev="1"] { color: var(--amber); font-weight: 700; }
+.trends { display: grid; gap: 10px; }
+.trends > div { display: flex; justify-content: space-between; align-items: center; }
+.trends span { color: var(--text-2); font-size: .9rem; }
+.mods { font-size: .92rem; color: var(--text-2); }
+.tx { margin-top: 30px; }
+.media { display: flex; flex-wrap: wrap; gap: 14px; }
+.media figure { margin: 0; width: 260px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface-2); }
+.media img, .media video { display: block; width: 100%; height: 170px; object-fit: cover; background: var(--surface-3); }
+.media figcaption { padding: 8px 10px; font-size: .9rem; color: var(--text-2); }
+.tx ol { padding-left: 1.4em; }
+.tx li { margin: 12px 0 16px; }
+.txQ { margin: 0; }
+.txWhy { margin: 3px 0; font-size: .88rem; color: var(--violet); }
+.txA { margin: 4px 0 0; padding-left: 12px; border-left: 2px solid var(--line-2); color: var(--text-2); }
+@media (max-width: 860px) {
+  .note { padding: 20px; }
+  .grid, .two { grid-template-columns: 1fr; gap: 10px; }
+  .side { border-left: none; padding-left: 0; }
+  .hpi > div { grid-template-columns: 1fr; gap: 0; }
+  .head { flex-direction: column; }
+  .urg { text-align: left; }
+}

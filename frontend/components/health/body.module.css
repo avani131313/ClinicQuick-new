@@ -1,0 +1,42 @@
+.host { position: relative; width: 100%; touch-action: pan-y; user-select: none; }
+.host[data-nogl="1"]::after { content: "3D view needs WebGL"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-3); }
+.canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; display: block; }
+.canvas:active { cursor: grabbing; }
+.spot {
+  position: absolute; left: 0; top: 0; padding: 0; border: 0; background: none; color: var(--text); font: inherit;
+  cursor: pointer; transition: opacity .3s; will-change: transform;
+}
+.pin {
+  position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent), 0 0 18px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.spot[data-tone="pulse"] .pin { background: var(--pulse); box-shadow: 0 0 0 4px color-mix(in srgb, var(--pulse) 18%, transparent), 0 0 18px color-mix(in srgb, var(--pulse) 70%, transparent); animation: ping 1.6s ease-out infinite; }
+.spot[data-tone="watch"] .pin { background: var(--amber); box-shadow: 0 0 0 4px color-mix(in srgb, var(--amber) 18%, transparent), 0 0 18px color-mix(in srgb, var(--amber) 60%, transparent); }
+.spot[data-tone="alert"] .pin { background: var(--red); box-shadow: 0 0 0 4px color-mix(in srgb, var(--red) 20%, transparent), 0 0 18px color-mix(in srgb, var(--red) 70%, transparent); }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--pulse) 50%, transparent), 0 0 18px color-mix(in srgb, var(--pulse) 70%, transparent); } 100% { box-shadow: 0 0 0 14px color-mix(in srgb, var(--pulse) 0%, transparent), 0 0 18px color-mix(in srgb, var(--pulse) 70%, transparent); } }
+.tag {
+  position: absolute; top: -17px; left: 18px; white-space: nowrap; display: flex; flex-direction: column; gap: 1px;
+  padding: 6px 11px 7px; border-radius: 10px; text-align: left;
+  background: color-mix(in srgb, var(--glass-c) 70%, transparent); border: 1px solid var(--line-2);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: border-color .25s, transform .3s var(--ease), box-shadow .3s;
+}
+.tag::before { content: ""; position: absolute; top: 17px; right: 100%; width: 13px; height: 1px; background: var(--line-2); }
+.spot[data-side="l"] .tag { left: auto; right: 18px; }
+.spot[data-side="l"] .tag::before { right: auto; left: 100%; }
+.spot:hover .tag, .on .tag { border-color: color-mix(in srgb, var(--accent) 60%, transparent); box-shadow: 0 8px 30px color-mix(in srgb, var(--shadow-c) 40%, transparent); transform: translateY(-1px); }
+.tagLabel { font-family: var(--mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
+.tagValue { font-family: var(--display); font-size: .98rem; font-weight: 500; color: var(--text); }
+.hint { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); margin: 0; font-family: var(--mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); pointer-events: none; }
+@media (max-width: 720px) { .tag { padding: 4px 8px 5px; } .tagValue { font-size: .85rem; } }
+.controls { position: absolute; right: 8px; bottom: 8px; display: flex; flex-direction: column; gap: 6px; }
+.controls button {
+  width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line-2); background: color-mix(in srgb, var(--glass-c) 70%, transparent); color: var(--text-2);
+  font: 500 1rem var(--mono); cursor: pointer; backdrop-filter: blur(10px); transition: color .2s, border-color .2s;
+}
+.controls button:hover { color: var(--text); border-color: var(--accent); }
+.modes { position: absolute; left: 10px; top: 10px; display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--glass); border: 1px solid var(--line-2); backdrop-filter: blur(10px); z-index: 2; }
+.modes button { font: 500 .78rem var(--body); padding: 5px 12px; border-radius: 999px; border: 0; background: none; color: var(--text-2); cursor: pointer; transition: color .2s, background-color .2s; }
+.modes button[aria-checked="true"] { background: var(--surface-3); color: var(--text); }
+.muscleTip { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 3; padding: 5px 10px; border-radius: 8px; font: 600 .8rem var(--body); color: var(--text); background: var(--glass); border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent); backdrop-filter: blur(8px); white-space: nowrap; }
+.loading { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--text-3); font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }

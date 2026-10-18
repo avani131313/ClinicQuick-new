@@ -1,0 +1,23 @@
+.page { display: grid; gap: 24px; }
+.head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.head h1 { margin-bottom: 6px; }
+.progress { margin: 0; color: var(--text-2); font-size: 1rem; }
+.progress span { font-family: var(--display); font-size: 1.8rem; font-weight: 600; color: var(--accent); margin-right: 4px; }
+.layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.item { width: 100%; display: flex; gap: 14px; align-items: flex-start; text-align: left; padding: 16px; border-radius: 18px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--text); font: inherit; cursor: pointer; transition: border-color .15s, background .15s; }
+.item:hover { border-color: var(--line-2); }
+.item[aria-current] { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background: color-mix(in srgb, var(--accent) 7%, var(--surface)); }
+.check { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--line-2); display: grid; place-items: center; margin-top: 2px; }
+.check[data-done] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.check svg { width: 15px; height: 15px; }
+.itemText { display: grid; gap: 3px; min-width: 0; }
+.itemText strong { font-size: 1.02rem; }
+.itemText small { color: var(--text-2); font-size: .88rem; }
+.itemText em { color: var(--text-3); font-size: .85rem; font-style: normal; }
+.coach { display: grid; gap: 12px; min-width: 0; }
+.under { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.how { margin: 0; color: var(--text-2); }
+@media (max-width: 900px) { .list { grid-auto-flow: column; grid-auto-columns: minmax(240px, 80%); overflow-x: auto; padding-bottom: 4px; scroll-snap-type: x mandatory; } .list li { scroll-snap-align: start; } }

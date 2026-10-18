@@ -1,0 +1,8 @@
+.wrap { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } }
+.list { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 8px; }
+.list li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line); }
+.list li div { display: grid; gap: 2px; min-width: 0; }
+.list small { color: var(--text-2); }
+.list em { color: var(--text-3); font-style: normal; font-size: .88rem; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }

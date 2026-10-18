@@ -1,0 +1,28 @@
+# One Vultr instance: Caddy (HTTPS) → Next.js frontend + FastAPI backend. Database is Tiger Cloud.
+#   DOMAIN=prelude-health.ca docker compose up -d --build
+services:
+  api:
+    build: ./backend
+    env_file: ./backend/.env
+    environment:
+      FRONTEND_URL: https://${DOMAIN}
+      CORS_ORIGINS: https://${DOMAIN}
+    restart: unless-stopped
+  web:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: https://${DOMAIN}/api
+    restart: unless-stopped
+  caddy:
+    image: caddy:2
+    ports: ["80:80", "443:443"]
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [api, web]
+    restart: unless-stopped
+volumes:
+  caddy_data:

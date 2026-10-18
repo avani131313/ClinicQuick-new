@@ -1,0 +1,15 @@
+.head { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding: 36px 0 12px; flex-wrap: wrap; }
+.head h1 { margin: 0 0 6px; }
+.auto { display: flex; gap: 28px; margin: 0; }
+.auto dt { color: var(--graphite); font-size: .9rem; }
+.auto dd { margin: 0; font-family: var(--display); font-size: 1.8rem; font-weight: 600; }
+.note { color: var(--graphite); max-width: 75ch; }
+.review { background: color-mix(in srgb, var(--amber) 10%, transparent); border-left: 4px solid var(--t-pharm); padding: 12px 16px; border-radius: 0 8px 8px 0; font-weight: 700; }
+.form { padding-bottom: 40px; }
+.sec { padding: 24px 0; border-top: 1px solid var(--rule); }
+.sec h2 { margin-bottom: 14px; }
+.sub { font-family: var(--body); font-size: 1rem; font-weight: 700; margin: 10px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 4px 24px; }
+.fs { border: none; padding: 0; margin: 0 0 18px; }
+.fs legend { font-weight: 700; margin-bottom: 8px; }
+.saveBar { position: sticky; bottom: 0; display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 14px 0; background: linear-gradient(to top, var(--bg) 70%, color-mix(in srgb, var(--bg) 0%, transparent)); }

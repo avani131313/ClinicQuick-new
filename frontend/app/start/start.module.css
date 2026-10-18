@@ -1,0 +1,35 @@
+.page { min-height: 100vh; display: flex; flex-direction: column; }
+.head { display: flex; align-items: center; gap: 28px; padding: 18px 24px; }
+.ticks { list-style: none; display: flex; gap: 5px; padding: 0; margin: 0; flex: 1; max-width: 520px; }
+.ticks li { flex: 1; height: 5px; border-radius: 3px; background: var(--line-2); transition: background .3s; }
+.ticks li.done { background: var(--accent); }
+.ticks li.now { background: var(--accent); opacity: .45; }
+.main { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 6vh 20px 60px; }
+.step { width: 100%; max-width: 720px; background: linear-gradient(180deg, var(--surface-2), var(--surface)); border: 1px solid var(--line); border-radius: 24px; padding: 40px 40px 32px; box-shadow: 0 30px 80px color-mix(in srgb, var(--shadow-c) 35%, transparent); }
+.count { color: var(--graphite); margin: 0 0 10px; font-size: .95rem; }
+.q { font-family: var(--display); font-size: clamp(2rem, 4.6vw, 3rem); font-weight: 300; letter-spacing: -0.035em !important; line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 12px; max-width: 20ch; }
+.why { color: var(--graphite); font-size: 1.05rem; margin-bottom: 4px; }
+.body { margin: 26px 0 8px; }
+.actions { display: flex; gap: 12px; align-items: center; margin-top: 26px; flex-wrap: wrap; }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; max-width: 520px; }
+.fs { border: none; padding: 0; margin: 0 0 22px; }
+.fs legend { font-weight: 700; margin-bottom: 10px; font-size: 1.08rem; }
+.famGrid { display: grid; gap: 22px; }
+.famGrid h3 { font-family: var(--body); font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+.added { padding-left: 1.2em; margin: 12px 0 0; }
+.added li { margin: 4px 0; }
+.snap { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0; margin: 24px 0; border-top: 1px solid var(--rule); }
+.snap > div { padding: 14px 6px; border-bottom: 1px solid var(--rule); }
+.snap dt { color: var(--graphite); font-size: .95rem; }
+.snap dd { margin: 2px 0 4px; font-family: var(--display); font-size: 1.7rem; font-weight: 400; }
+.snap dd span { font-family: var(--body); font-size: 1rem; font-weight: 400; color: var(--graphite); margin-left: 6px; }
+.snap dd span.flag { color: var(--t-today); font-weight: 700; }
+.consent { padding-left: 1.2em; margin: 20px 0; }
+.consent li { margin: 10px 0; max-width: 62ch; }
+.check { display: flex; gap: 10px; align-items: center; font-weight: 700; margin-top: 10px; cursor: pointer; }
+.check input { width: 22px; height: 22px; }
+@media (max-width: 720px) {
+  .step { padding: 24px 18px; border-radius: 12px; }
+  .head { gap: 14px; padding: 14px 16px; }
+  .main { padding-top: 3vh; }
+}
